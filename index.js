@@ -24,26 +24,32 @@ function findImportStatements(directory) {
 
           console.log(`----------- Import statements in ${file_patch}: --------`);
           import_statements.forEach((statement) => {
-            console.log(statement);
+          
             const fileName = statement.match(/import .* from ['"](.*?)['"]/)[1];
             file_names.push(fileName);
             if(statement.match(/import\s+(?:{([^}]+)})?([^{}\s]+)\s+from/)){
                 const match_results = statement.match(/import\s+(?:{([^}]+)})?([^{}\s]+)\s+from/);
                  const values = match_results[1] ? match_results[1].split(',').map(value => value.trim()) : [];
                   const moduleName = match_results[2];
-                  console.log('Import values:', values);
-                  console.log('Module name:', moduleName);
+                  // console.log('Import values:', values);
+                  // console.log('Module name:', moduleName);
                   imports_name.push(moduleName);
-                console.log("this is simple value get", )
+                // console.log("this is simple value get", )
                 }
                 else if(statement.match(/\{([^}]+)\}/)){
                 const match_results = statement.match(/\{([^}]+)\}/);
-                    console.log("this is complex value get");
+                  
                   const values = match_results[1].trim().split(',').map(value => value.trim());
                   imports_name.push(values);
-                  console.log(values);
+                  // console.log("this is complex value get", file_names, imports_name);
+
                 }
-            console.log("----------------------------------------------------")
+
+                const obj_man = {fileName};
+                obj_man["value"] = imports_name;
+                console.log("this is obj_man", obj_man)
+                imports_name = [];
+            // console.log("----------------------------------------------------")
           });
         }
       }
@@ -67,5 +73,5 @@ findImportStatements(directory);
 
 
 console.log("this is what is to see important------------------------")
-console.log("these are file names", file_names);
-console.log("these are modules name", imports_name)
+// console.log("these are file names", file_names);
+// console.log("these are modules name", imports_name)
