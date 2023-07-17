@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    
+</body>
+<svg id="graph" width="400" height="400"></svg>
+<!-- 
+<script src="https://cdn.jsdelivr.net/npm/d3-dispatch@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-quadtree@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-timer@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-force@3"></script> -->
+<script>
+    const nodeData = [
+      { id: 1, label: 'Node 1' },
+      { id: 2, label: 'Node 2' },
+      { id: 3, label: 'Node 3' }
+    ];
+
+    const edgeData = [
+      { source: 0, target: 1 },
+      { source: 1, target: 2 },
+      { source: 2, target: 0 }
+    ];
+
+    const svg = d3.select('#graph')
+      .attr('width', 400)
+      .attr('height', 400);
+
+    const links = svg.selectAll('line')
+      .data(edgeData)
+      .enter()
+      .append('line')
+      .attr('stroke', 'black');
+
+    const nodes = svg.selectAll('circle')
+      .data(nodeData)
+      .enter()
+      .append('circle')
+      .attr('r', 10)
+      .attr('fill', 'red');
+
+    const simulation = d3.forceSimulation(nodeData)
+      .force('link', d3.forceLink(edgeData))
+      .force('charge', d3.forceManyBody())
+      .force('center', d3.forceCenter(200, 200))
+      .on('tick', () => {
+        links
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+
+        nodes
+          .attr('cx', d => d.x)
+          .attr('cy', d => d.y);
+      });
+  </script>
+</html>
